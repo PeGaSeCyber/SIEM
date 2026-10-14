@@ -1,99 +1,19 @@
 # Surveillance de réseau et détection de comportements anormaux avec des systèmes de journalisation (SIEM) — ELK Stack + Suricata
 
-**Projet tuteuré INF 1522** — Licence Professionnelle, Systèmes et Réseaux Informatiques
-École Polytechnique de Lomé — Université de Lomé — Année universitaire 2024-2025
-
-**Enseignant tuteur :** Dr. BARATE Mohamed
-**Étudiants :** GNRONFOU Koffi Jean Magloire · AKAMA Kodjovi Jean-Hugues
-
 ---
 
 ## Sommaire
-
-1. [Présentation du projet](#présentation-du-projet)
-2. [Objectifs](#objectifs)
-3. [Qu'est-ce qu'un SIEM ?](#quest-ce-quun-siem-)
-4. [Solutions SIEM comparées](#solutions-siem-comparées)
-5. [Solution retenue : ELK Stack + Suricata](#solution-retenue--elk-stack--suricata)
-6. [Attaques couvertes](#attaques-couvertes)
-7. [Architecture du projet](#architecture-du-projet)
-8. [Équipements et prérequis](#équipements-et-prérequis)
-9. [Installation et configuration](#installation-et-configuration)
-10. [Règles de détection Suricata](#règles-de-détection-suricata)
-11. [Agent de collecte Windows : Winlogbeat](#agent-de-collecte-windows--winlogbeat)
-12. [Scénarios de test et résultats](#scénarios-de-test-et-résultats)
-13. [Conclusion](#conclusion)
-14. [Références](#références)
+1. [Solution retenue : ELK Stack + Suricata](#solution-retenue--elk-stack--suricata)
+2. [Attaques couvertes](#attaques-couvertes)
+3. [Architecture du projet](#architecture-du-projet)
+4. [Équipements et prérequis](#équipements-et-prérequis)
+5. [Installation et configuration](#installation-et-configuration)
+6. [Règles de détection Suricata](#règles-de-détection-suricata)
+7. [Agent de collecte Windows : Winlogbeat](#agent-de-collecte-windows--winlogbeat)
+8. [Scénarios de test et résultats](#scénarios-de-test-et-résultats)
+9. [Références](#références)
 
 ---
-
-## Présentation du projet
-
-Ce projet met en place une solution **SIEM (Security Information and Event Management)** open-source basée sur la combinaison **ELK Stack** (Elasticsearch, Logstash, Kibana) et **Suricata** (IDS/IPS), afin de surveiller en temps réel le trafic d'un réseau local, centraliser les journaux (logs) et détecter des comportements anormaux ou malveillants.
-
-Trois attaques réelles sont simulées pour évaluer l'efficacité du système déployé :
-- une attaque par **déni de service (DoS)**,
-- une attaque **SSH par force brute**,
-- une tentative d'**authentification illégitime** sur un poste Windows.
-
-## Objectifs
-
-### Objectif général
-
-Développer et déployer une solution de surveillance de réseau capable de détecter et d'analyser les comportements anormaux, avec journalisation, analyse en temps réel et réponse rapide aux incidents de sécurité.
-
-### Objectifs spécifiques
-
-- Déployer un environnement de travail virtualisé simulant un réseau d'entreprise.
-- Installer et configurer la solution SIEM choisie.
-- Collecter les logs de manière centralisée via des agents installés sur les équipements du réseau.
-- Simuler des attaques pour évaluer l'efficacité du système déployé.
-
-### Résultats attendus
-
-Le système SIEM déployé doit être capable de :
-- collecter et centraliser en temps réel les logs de tous les équipements du réseau ;
-- normaliser les données collectées ;
-- corréler les événements pour détecter anomalies et indicateurs de compromission ;
-- détecter efficacement les tentatives d'intrusion et les attaques DoS ;
-- fournir des alertes et des tableaux de bord pour une intervention rapide.
-
-## Qu'est-ce qu'un SIEM ?
-
-Un **SIEM (Security Information and Event Management)** est une solution de gestion de la sécurité des systèmes d'information qui collecte, analyse, corrèle et stocke les données générées par les événements de sécurité d'un réseau. Il combine deux composants :
-
-| Composant | Rôle |
-|---|---|
-| **SEM** (Security Event Management) | Collecte et stockage des logs générés par les équipements du réseau (serveurs, pare-feux, routeurs…) |
-| **SIM** (Security Information Management) | Analyse de ces événements, recherche d'anomalies, génération d'alertes |
-
-### Fonctionnalités clés
-
-- Collecte et gestion centralisée des logs
-- Normalisation des événements
-- Corrélation d'événements en temps réel
-- Alertes et notifications
-- Analyse forensique (post-incident)
-- Tableaux de bord personnalisés
-- Automatisation de la réponse aux incidents
-
-### Limites
-
-- Complexité de mise en place (compétences techniques, investissement initial)
-- Génération possible de faux positifs
-- Coût élevé, notamment pour les solutions sur site
-
-## Solutions SIEM comparées
-
-| Solution | Type | Points forts | Limites |
-|---|---|---|---|
-| <img src="images/fig01_alienvault_ossim.png" width="140"><br>**AlienVault OSSIM** | Open-source | Abordable, populaire chez les PME | Moins riche en fonctionnalités que les versions commerciales |
-| <img src="images/fig02_ibm_qradar.png" width="140"><br>**IBM QRadar** | Commercial | Large choix de cas prédéfinis, collecte de logs/flux Cloud | Coût élevé, personnalisation complexe, peut générer des notifications non critiques |
-| <img src="images/fig03_elk_stack_logo.png" width="140"><br>**ELK Stack + Suricata** | Open-source | Flexible, gratuit, interface Kibana conviviale, recherche en temps réel performante | Nécessite un IDS/IPS complémentaire (Suricata) pour couvrir pleinement les fonctionnalités SIEM |
-
-C'est la combinaison **ELK Stack + Suricata** qui a été retenue pour ce projet, en raison de sa flexibilité, sa gratuité et sa facilité d'utilisation.
-
-## Solution retenue : ELK Stack + Suricata
 
 ### ELK Stack
 
@@ -298,22 +218,9 @@ Le détail de l'événement, avec l'horodatage et le nom d'utilisateur concerné
 
 ✅ **Détection et journalisation confirmées via le Dashboard Winlogbeat.**
 
-## Conclusion
-
-Ce projet a permis de mettre en œuvre et d'évaluer l'efficacité d'une solution SIEM basée sur **ELK Stack + Suricata** dans un environnement de test virtualisé. Les composants essentiels (collecte, normalisation, stockage, visualisation) ont été intégrés et configurés avec succès, et les simulations d'attaques (**DoS**, **SSH brute force**, **authentification illégitime**) ont confirmé la capacité du système à :
-
-- détecter des comportements anormaux en temps réel,
-- journaliser précisément les incidents (horodatage, source, type d'attaque),
-- générer des alertes pertinentes via Telegram.
-
-Bien qu'open-source et gratuite, cette solution démontre qu'elle peut jouer un rôle essentiel dans une stratégie de cybersécurité, à condition d'être correctement configurée et adaptée au contexte de l'organisation. L'environnement de test étant restreint, le projet est extensible à un réseau de plus grande taille moyennant l'adaptation des configurations et des paramètres.
-
 ## Références
 
 1. France 24 — *Elon Musk assure que X (ex-Twitter) subit une cyberattaque massive* — [lien](https://www.france24.com/fr/info-en-continu/20250310-elonmusk-assure-que-x-ex-twitter-subit-une-cyberattaque-massive-1) (consulté le 17/03/2025)
 2. Vidéo de référence sur la conformité réglementaire (ISO 27001, PCI-DSS, RGPD) — [lien](https://youtu.be/Ero6zPCI_pk)
 3. *Étude et mise en place d'un SIEM open-source* — MemoireOnline — [lien](https://www.memoireonline.com/07/21/11983/Etude-et-mise-en-place-dun-SIEM-security-information-and-event-management-open-source-cas-de-.html)
 
----
-
-*Documentation générée à partir du rapport de projet tuteuré INF 1522 — École Polytechnique de Lomé.*
